@@ -1,0 +1,30 @@
+version: '3.5'
+
+services:
+  lumen:
+    container_name: blog-lumen
+    ports:
+      - "80:80"
+    volumes:
+      - ./blog:/var/www/html
+      - /var/www/html/vendor/
+      - ./resources/php/php.ini:/usr/local/etc/php/php.ini
+      - ./resources/apache/000-default.conf:/etc/apache2/sites-available/000-default.conf
+      - ./resources/apache/apache2.conf:/etc/apache2/apache2.conf
+    build: 
+      context: ./
+      dockerfile: ./resources/php/Dockerfile
+    #command: php -S lumen:8000 -t public
+
+  db:
+    image: mysql:5.7
+    container_name: blog-db
+    ports :
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: homestead
+      MYSQL_USER: blog
+      MYSQL_PASSWORD: blog
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - ./resources/db_data:/var/lib/mysql
