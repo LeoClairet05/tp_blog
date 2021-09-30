@@ -5,6 +5,7 @@ services:
     container_name: blog-lumen
     ports:
       - "80:80"
+    env_file: ./blog/.env
     volumes:
       - ./blog:/var/www/html
       - /var/www/html/vendor/
@@ -14,6 +15,7 @@ services:
     build: 
       context: ./
       dockerfile: ./resources/php/Dockerfile
+      
     #command: php -S lumen:8000 -t public
 
   db:
