@@ -16,7 +16,12 @@ services:
       context: ./
       dockerfile: ./resources/php/Dockerfile
       
-    #command: php -S lumen:8000 -t public
+  composer:
+    image: composer
+    container_name: blog-composer
+    volumes:
+      - ./blog:/app
+    command: install
 
   db:
     image: mysql:5.7
