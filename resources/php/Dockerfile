@@ -3,17 +3,14 @@ FROM php:5.6-apache
 WORKDIR /var/www/html/
 
 RUN docker-php-ext-install pdo mysqli pdo_mysql 
-
 RUN apt-get update && apt-get install -y \
-        zip unzip
+        libmemcached-dev \
+        zip unzip \
+        zlib1g-dev
 
-RUN php -r "readfile('http://getcomposer.org/installer');" | php -- --install-dir=/usr/bin/ --filename=composer
+COPY --from=composer /usr/bin/composer /usr/bin/composer
 
-COPY ./blog/ .
+RUN pecl install memcached-2.2.0
+RUN echo extension=memcached.so >> /usr/local/etc/php/conf.d/memcached.ini
 
-RUN composer install
-RUN php artisan migrate
-#RUN php artisan migrate:install
-
-RUN usermod -u 1000 www-data
 RUN a2enmod rewrite
