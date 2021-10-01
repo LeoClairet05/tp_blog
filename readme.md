@@ -32,7 +32,7 @@ docker compose up -d
 Once your docker containers are running, you'll need another set of command in order to finish the installation:
 ```bash
 docker compose exec lumen composer install 
-docker compose exec php artisan migrate:refresh --seed
+docker compose exec lumen php artisan migrate:refresh --seed
 ```
 
 ## Routes
